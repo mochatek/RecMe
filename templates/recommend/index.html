@@ -5,13 +5,20 @@
 <head>
     <link rel="shortcut icon" href="https://img.icons8.com/material-rounded/48/000000/facebook-like.png">
     <style>
-        .data{
-            padding: 1%;
-            width: 70%;
-            font-size: 14px;
-        }
         .active{
             color:black;
+        }
+        th{
+            font-size:14px;
+            font-weight: bold;
+            color:white;
+            background-color: #007BFF;
+
+        }
+        .data{
+            padding: 1%;
+            width: 80%;
+            font-size: 14px;
         }
     </style>
     <meta charset="utf-8">
@@ -29,36 +36,30 @@
     <div class="row" id="navbar">
             <div class="col d-flex d-sm-flex justify-content-center align-items-center justify-content-sm-center" style="background-color: #007BFF;padding:1%;font-weight: bold;font-size: 14px">
                 <a class="text-white" href="{% url 'movies:index' %}">Movies</a>
-                <a class="active" href="{% url 'movies:watched' %}" style="padding: 0px;margin-left: 4%;">Watched</a>
-                <a class="text-white" href="{% url 'recommend:index' %}" style="padding: 0px;margin-left: 4%;">Recommended</a>
+                <a class="text-white" href="{% url 'movies:watched' %}" style="padding: 0px;margin-left: 4%;">Watched</a>
+                <a class="active" href="{% url 'recommend:index' %}" style="padding: 0px;margin-left: 4%;">Recommended</a>
                 <a class="text-white" href="{% url 'accounts:logout' %}" style="margin-left: 4%;">Logout</a></div>
         </div>
     <div class="row" id="search_filter">
         <div class="col d-flex d-sm-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center" style="padding: 2%;"><input class="border rounded" type="text" placeholder="Search Movie"  style="width:65%;padding-left: 5px;" id="search" onkeyup="searchMovie(this.value.toUpperCase())">
             <select class="border rounded d-sm-flex" style="height: 30px;margin-left: 5%;width: 25%;"><option value="All" selected="">All</option><option value="Malayalam">Malayalam</option><option value="Tamil">Tamil</option></select></div>
     </div>
-    <div class="row" id="movie_tbl">
+    <div class="row" id="movie_tbl" >
         <div class="col d-flex d-sm-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center" style="padding: 2%;">
             <div class="table-responsive border rounded" style="width: 95%;">
                 <table class="table table-hover">
                     <thead>
-                        <tr></tr>
+                        <tr><th>MOVIE (YEAR)</th><th>INFO</th><th>EXPECTED</th></tr>
                     </thead>
                     <tbody style="background-color: #ebe6e6;">
-                        {% if not watched %}
-                        <tr><td align="center" style="color:red;background:pink">Rate movies you have watched in order to view Watch History</td></tr>
+                        {% if not recommended %}
+                        <tr><td align="center" style="color:red;background:pink">Rate movies you have watched in order to get Recommendations</td></tr>
                         {% else %}
-                        {% for ob in watched %}
+                        {% for ob in recommended %}
                         <tr>
-                            <td class="data">{{ ob.movie }}</td>
-                            <td style="padding: 1%;">
-                            <form class="d-flex d-sm-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center" style="width: 100%;" method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="id" value="{{ ob.id }}">
-                            <input class="border rounded form-control form-control-sm" type="number" style="width: 40%;height: 25px;font-size: 14px;text-align: center" min="1" max="10" step="0.1" readonly id="rate" name="rate" placeholder="Rate" value='{{ ob.rating }}'>
-                            <button class="btn btn-primary btn-sm border rounded" type="button"  name="edit" style="width: 20%;margin-left: 5%;padding: 0px;height: 25px;background-color: rgb(255,153,0);" onclick="changeIcon(this, this.parentNode)"><i class="fas fa-edit" ></i></button>
-                            <button class="btn btn-primary btn-sm border rounded" type="submit" name="delete" value="delete" style="width: 20%;margin-left: 5%;padding: 0px;height: 25px;background-color: rgb(255,0,0);"><i class="fas fa-minus-circle"></i></button></form>
-                            </td>
+                            <td class="data">{{ ob.movie__movie }} ({{ ob.movie__year }})</td>
+                            <td class="text-center" style="padding: 1%;"><a style="text-decoration: none;" href="https://www.google.co.in/search?q={{ ob.movie__movie }} Malayalam Film" target="_blank"><i class="fas fa-search"></i></a></td>
+                            <td style="padding: 1%;" align="center"><label class="text-center text-black border rounded-circle border-danger" style="height:33%;width:33%;font-weight:bold;padding:2%;font-size: 14px;background:yellow">{{ ob.strength }}</label></td>
                         </tr>
                         {% endfor %}
                         {% endif %}
@@ -85,20 +86,6 @@
                 }
               }
             }
-        function changeIcon(btn, form){
-            ico = btn.getElementsByTagName("i")[0];
-            rate = form.childNodes[5];
-            if (ico.className == 'fas fa-edit'){
-                rate.readOnly = false;
-                btn.style.backgroundColor =  "#049615";
-                ico.className = 'fas fa-save';                
-            }else{
-                rate.readOnly = true;
-                btn.style.backgroundColor =  "#FF9900";
-                ico.className = 'fas fa-edit';
-                form.submit();
-            }
-        }
             </script>
 </body>
 
