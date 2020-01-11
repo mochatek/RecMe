@@ -4,12 +4,10 @@ from django.contrib.auth.models import User
 class Movie(models.Model):
     movie = models.CharField(max_length = 60)
     year = models.IntegerField()
-    language = models.CharField(max_length = 20)
     action = models.IntegerField()
     adventure = models.IntegerField()
     anthology = models.IntegerField()
     biographical = models.IntegerField()
-    biopic = models.IntegerField()
     campus = models.IntegerField()
     children = models.IntegerField()
     comedy = models.IntegerField()
@@ -17,6 +15,7 @@ class Movie(models.Model):
     drama = models.IntegerField()
     family = models.IntegerField()
     fantasy = models.IntegerField()
+    fiction = models.IntegerField()
     heist = models.IntegerField()
     historical = models.IntegerField()
     horror = models.IntegerField()
@@ -35,6 +34,8 @@ class Movie(models.Model):
     sport = models.IntegerField()
     suspense = models.IntegerField()
     thriller = models.IntegerField()
+    malayalam = models.IntegerField()
+    tamil = models.IntegerField()
 
     def __str__(self):
         return self.movie
