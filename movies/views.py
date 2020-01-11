@@ -20,7 +20,7 @@ def index(request):
 @login_required
 def watched(request):
         if request.method == 'GET':
-                watched = Watched.objects.filter(user = request.user.id).select_related()
+                watched = Watched.objects.filter(user = request.user.id).select_related().values('id','movie__movie','rating','movie__tamil','movie__year')
                 context = {'watched':watched}
                 return render(request, 'movies/watched.html', context)
         else:

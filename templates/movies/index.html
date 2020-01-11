@@ -83,14 +83,26 @@
             }
 
             function filterLang(val){
-                rows = document.getElementsByTagName("tr");
-                if(val=='Tamil'){
+                var rows = document.getElementsByTagName("tr");
+                if(val == 'Tamil'){
                     for(var i=0;i<rows.length;i++){
-                        if(rows[i]["data-lang"] == '1'){
-                            rows[i].style.display = '';
+                        if(rows[i].getAttribute('data-lang') == '0'){
+                            rows[i].style.display = 'none';
                         }else{
-                            rows[i].style.display = 'none;'
+                            rows[i].style.display = '';
                         }
+                    }
+                }else if(val =='Malayalam'){
+                    for(var i=0;i<rows.length;i++){
+                        if(rows[i].getAttribute('data-lang') == '1'){
+                            rows[i].style.display = 'none';
+                        }else{
+                            rows[i].style.display = '';
+                        }
+                    }       
+                }else{
+                    for(var i=0;i<rows.length;i++){
+                            rows[i].style.display = '';
                     }
                 }
             }

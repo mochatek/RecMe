@@ -8,7 +8,7 @@ from movies.models import Movie, Watched
 @login_required
 def index(request):
     update_rec(request.user)
-    recommended = Recommend.objects.filter(user = request.user.id).select_related().values('movie__movie', 'strength', 'movie__year').order_by('-strength')
+    recommended = Recommend.objects.filter(user = request.user.id).select_related().values('movie__movie', 'strength', 'movie__year', 'movie__tamil').order_by('-strength')
     context={'recommended':recommended}
     return render(request, 'recommend/index.html', context)
 
@@ -27,7 +27,7 @@ def update_rec(user):
                 # Convert list to nd array
                 movie_mat = np.array(list(wm_vl))
                 # Convert to 1-D array
-                rate_mat = np.array(list(rt_vl)).flatten()
+                rate_mat = np.array(list(rt_vl)).ravel()
                 weight_mat = movie_mat * rate_mat[:, None]
                 user_prof = weight_mat.sum(axis = 0)
                 user_prof = np.array([round(float(i) / sum(user_prof), 2) for i in user_prof])
@@ -41,7 +41,7 @@ def update_rec(user):
                                         'romantic', 'satire', 'social', 'sport', 'suspense', 'thriller',
                                         'malayalam','tamil')
                 pred_movie_mat = np.array(list(nwm_vl))
-                pred_movie_id_mat = np.array(list(nwm_id_vl)).flatten()
+                pred_movie_id_mat = np.array(list(nwm_id_vl)).ravel()
                 pred_weight_mat = pred_movie_mat * user_prof[None, :]
                 recommend_mat = pred_weight_mat.sum(axis = 1) * 10
                 Recommend.objects.filter(user = user.id).delete()

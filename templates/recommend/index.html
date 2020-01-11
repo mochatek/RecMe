@@ -42,7 +42,7 @@
         </div>
     <div class="row" id="search_filter">
         <div class="col d-flex d-sm-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center" style="padding: 2%;"><input class="border rounded" type="text" placeholder="Search Movie"  style="width:65%;padding-left: 5px;" id="search" onkeyup="searchMovie(this.value.toUpperCase())">
-            <select class="border rounded d-sm-flex" style="height: 30px;margin-left: 5%;width: 25%;"><option value="All" selected="">All</option><option value="Malayalam">Malayalam</option><option value="Tamil">Tamil</option></select></div>
+            <select class="border rounded d-sm-flex" style="height: 30px;margin-left: 5%;width: 25%;" onchange="filterLang(this.value)"><option value="All" selected="">All</option><option value="Malayalam">Malayalam</option><option value="Tamil">Tamil</option></select></div>
     </div>
     <div class="row" id="movie_tbl" >
         <div class="col d-flex d-sm-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center" style="padding: 2%;">
@@ -58,7 +58,7 @@
                         </thead>
                         <tbody style="background-color: #ebe6e6;">
                         {% for ob in recommended %}
-                        <tr>
+                        <tr data-lang='{{ ob.movie__tamil }}'>
                             <td class="data">{{ ob.movie__movie }} ({{ ob.movie__year }})</td>
                             <td class="text-center" style="padding: 1%;"><a style="text-decoration: none;" href="https://www.google.co.in/search?q={{ ob.movie__movie }} Malayalam Film" target="_blank"><i class="fas fa-search"></i></a></td>
                             <td style="padding: 1%;" align="center"><label class="text-center text-black border rounded-circle border-danger" style="height:33%;width:33%;font-weight:bold;padding:2%;font-size: 14px;background:yellow">{{ ob.strength }}</label></td>
@@ -87,6 +87,30 @@
                   movies[i].parentNode.style.display = "none";
                 }
               }
+            }
+            function filterLang(val){
+                var rows = document.getElementsByTagName("tr");
+                if(val == 'Tamil'){
+                    for(var i=1;i<rows.length;i++){
+                        if(rows[i].getAttribute('data-lang') == '0'){
+                            rows[i].style.display = 'none';
+                        }else{
+                            rows[i].style.display = '';
+                        }
+                    }
+                }else if(val =='Malayalam'){
+                    for(var i=1;i<rows.length;i++){
+                        if(rows[i].getAttribute('data-lang') == '1'){
+                            rows[i].style.display = 'none';
+                        }else{
+                            rows[i].style.display = '';
+                        }
+                    }       
+                }else{
+                    for(var i=1;i<rows.length;i++){
+                            rows[i].style.display = '';
+                    }
+                }
             }
             </script>
 </body>
