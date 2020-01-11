@@ -17,11 +17,12 @@ def update_rec(user):
         if watched:
                 rate = Watched.objects.filter(user = user.id).values('rating')
                 # Convert to value list of genres
-                wm_vl = watched.values_list('action', 'adventure', 'anthology', 'biographical', 'biopic',
-                                        'campus', 'children', 'comedy', 'crime', 'drama', 'family', 'fantasy',
+                wm_vl = watched.values_list('action', 'adventure', 'anthology', 'biographical', 'campus',
+                                        'children', 'comedy', 'crime', 'drama', 'family', 'fantasy', 'fiction',
                                         'heist', 'historical', 'horror', 'masala', 'music', 'mystery',
                                         'patriotism', 'period', 'political', 'psychological', 'revenge', 'road',
-                                        'romantic', 'satire', 'social', 'sport', 'suspense', 'thriller')
+                                        'romantic', 'satire', 'social', 'sport', 'suspense', 'thriller',
+                                        'malayalam','tamil')
                 rt_vl=rate.values_list('rating')
                 # Convert list to nd array
                 movie_mat = np.array(list(wm_vl))
@@ -33,11 +34,12 @@ def update_rec(user):
 
                 not_watched = Movie.objects.exclude(id__in = Watched.objects.filter(user = user.id).select_related().values('movie'))
                 nwm_id_vl = not_watched.values_list('id')
-                nwm_vl = not_watched.values_list('action', 'adventure', 'anthology', 'biographical', 'biopic',
-                                        'campus', 'children', 'comedy', 'crime', 'drama', 'family', 'fantasy',
+                nwm_vl = not_watched.values_list('action', 'adventure', 'anthology', 'biographical', 'campus',
+                                        'children', 'comedy', 'crime', 'drama', 'family', 'fantasy', 'fiction',
                                         'heist', 'historical', 'horror', 'masala', 'music', 'mystery',
                                         'patriotism', 'period', 'political', 'psychological', 'revenge', 'road',
-                                        'romantic', 'satire', 'social', 'sport', 'suspense', 'thriller')
+                                        'romantic', 'satire', 'social', 'sport', 'suspense', 'thriller',
+                                        'malayalam','tamil')
                 pred_movie_mat = np.array(list(nwm_vl))
                 pred_movie_id_mat = np.array(list(nwm_id_vl)).flatten()
                 pred_weight_mat = pred_movie_mat * user_prof[None, :]
