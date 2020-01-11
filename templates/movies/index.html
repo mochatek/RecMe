@@ -35,20 +35,19 @@
     </div>
     <div class="row" id="search_filter">
         <div class="col d-flex d-sm-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center" style="padding: 2%;"><input class="border rounded" type="text" placeholder="Search Movie"  style="width:65%;padding-left: 5px;" id="search" onkeyup="searchMovie(this.value.toUpperCase())">
-            <select class="border rounded d-sm-flex" style="height: 30px;margin-left: 5%;width: 25%;"><option value="All" selected="">All</option><option value="Malayalam">Malayalam</option><option value="Tamil">Tamil</option></select></div>
+            <select class="border rounded d-sm-flex" style="height: 30px;margin-left: 5%;width: 25%;" onchange="filterLang(this.value)"><option value="All" selected="">All</option><option value="Malayalam">Malayalam</option><option value="Tamil">Tamil</option></select></div>
     </div>
     <div class="row" id="movie_tbl" >
         <div class="col d-flex d-sm-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center" style="padding: 2%;">
             <div class="table-responsive border rounded" style="width: 95%;">
                 <table class="table table-hover">
                     <thead>
-                        <tr></tr>
                     </thead>
                     <tbody style="background-color: #ebe6e6;">
                         {% for ob in not_watched %}
-                        <tr>
+                        <tr data-lang = '{{ ob.tamil }}'>
                             <td class="data">{{ ob.movie }} ({{ ob.year }})</td>
-                            <td class="text-center" style="padding: 1%;"><a style="text-decoration: none;" href="https://www.google.co.in/search?q={{ ob.movie }} Malayalam Film" target="_blank"><i class="fas fa-search"></i></a></td>
+                            <td class="text-center" style="padding: 1%;"><a style="text-decoration: none;" href="https://www.google.co.in/search?q={{ ob.movie }} {{ ob.year }} Film" target="_blank"><i class="fas fa-search"></i></a></td>
                             <td style="padding: 1%;">
                                 <form class="d-flex d-sm-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center" style="width: 100%;" method="POST">
                                     {% csrf_token %}
@@ -81,6 +80,19 @@
                   movies[i].parentNode.style.display = "none";
                 }
               }
+            }
+
+            function filterLang(val){
+                rows = document.getElementsByTagName("tr");
+                if(val=='Tamil'){
+                    for(var i=0;i<rows.length;i++){
+                        if(rows[i]["data-lang"] == '1'){
+                            rows[i].style.display = '';
+                        }else{
+                            rows[i].style.display = 'none;'
+                        }
+                    }
+                }
             }
             </script>
 </body>

@@ -13,7 +13,7 @@ def index(request):
                         w.save()
                 return redirect('movies:index')
         else:
-                not_watched = Movie.objects.exclude(id__in = Watched.objects.filter(user = request.user.id).select_related().values('movie'))
+                not_watched = Movie.objects.exclude(id__in = Watched.objects.filter(user = request.user.id).select_related().values('movie')).order_by('year','movie')
                 context = {'not_watched':not_watched}                        
                 return render(request, 'movies/index.html', context)
 
