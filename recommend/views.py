@@ -13,6 +13,7 @@ def index(request):
     return render(request, 'recommend/index.html', context)
 
 def update_rec(user):
+        Recommend.objects.filter(user = user.id).delete()
         watched = Movie.objects.filter(id__in = Watched.objects.filter(user = user.id).select_related().values('movie'))
         if watched:
                 rate = Watched.objects.filter(user = user.id).values('rating')
@@ -44,13 +45,10 @@ def update_rec(user):
                 pred_movie_id_mat = np.array(list(nwm_id_vl)).ravel()
                 pred_weight_mat = pred_movie_mat * user_prof[None, :]
                 recommend_mat = pred_weight_mat.sum(axis = 1) * 10
-                Recommend.objects.filter(user = user.id).delete()
                 for i in range(len(recommend_mat)):
                         if recommend_mat[i] >= 6.5:
                                 m = Movie.objects.get(id = pred_movie_id_mat[i])
                                 r = Recommend(user = user, movie = m, strength = round(recommend_mat[i], 2))
                                 r.save()
-        else:
-                Recommend.objects.filter(user = user.id).delete()
 
     
