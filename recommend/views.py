@@ -46,7 +46,7 @@ def update_rec(user):
                 pred_weight_mat = pred_movie_mat * user_prof[None, :]
                 recommend_mat = pred_weight_mat.sum(axis = 1) * 10
                 for i in range(len(recommend_mat)):
-                        if recommend_mat[i] >= 6.5:
+                        if 10 >= recommend_mat[i] >= 6.5:
                                 m = Movie.objects.get(id = pred_movie_id_mat[i])
                                 r = Recommend(user = user, movie = m, strength = round(recommend_mat[i], 2))
                                 r.save()
