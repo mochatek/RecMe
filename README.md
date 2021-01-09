@@ -17,13 +17,15 @@ View the live demo: [RecMe](https://rekme.herokuapp.com/)
 
 `language` , `genre` , `rating`
 
-## Data Source
+## Data
 
 Dataset was built by scraping [Wikipedia](https://en.wikipedia.org)
 
 __URL:__ `https://en.wikipedia.org/wiki/List_of_[lang]_films_of_[year]`
 
 __Scraper Script__: [Wiki-Movie-Scraper](https://github.com/mochatek/RecMe/blob/master/wiki_movie_scraper.py)
+
+Data preprocessing is done using pandas and numpy
 
 ## Content-Based-Recommender Strategy
 
