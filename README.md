@@ -17,7 +17,7 @@ View the live demo: [RecMe](https://rekme.herokuapp.com/)
 
 `language` , `genre` , `rating`
 
-### Data Source
+## Data Source
 
 Dataset was built by scraping [Wikipedia](https://en.wikipedia.org)
 
@@ -25,7 +25,7 @@ __URL:__ `https://en.wikipedia.org/wiki/List_of_[lang]_films_of_[year]`
 
 __Scraper Script__: [Wiki-Movie-Scraper](https://github.com/mochatek/RecMe/blob/master/wiki_movie_scraper.py)
 
-### Content-Based-Recommender Strategy
+## Content-Based-Recommender Strategy
 
 If you need to know how this strategy work, I have made a graphical representation of it with an example. View it [here](https://github.com/mochatek/RecMe/blob/master/cbr.png)
 
